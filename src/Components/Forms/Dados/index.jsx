@@ -354,6 +354,27 @@ export default function FormDados() {
         return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
     }
 
+    function formatCPF(cpf) {
+        const cleanCPF = cpf.replace(/\D/g, '');
+
+        if (cleanCPF.length !== 11) return 'CPF inválido';
+
+        return `${cleanCPF.slice(0, 3)}******${cleanCPF.slice(9)}`;
+    }
+
+    function formatEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) return 'Invalid Email';
+        
+        const [localPart, domain] = email.split('@');
+        
+        if (localPart.length <= 3) {
+          return `${localPart}******@${domain}`;
+        }
+        
+        return `${localPart.slice(0, 3)}******${localPart.slice(-2)}@${domain}`;
+      }
+
     const renderMultipleItems = (arrayKey, titlePrefix, dataExtractor) => {
         let items;
 
@@ -446,10 +467,10 @@ export default function FormDados() {
         } : null,
         'Condutor': veiculo.condutor ? {
             'Nome': veiculo.condutor.nome,
-            'CPF': veiculo.condutor.cpf,
+            'CPF': formatCPF(veiculo.condutor.cpf),
             'Idade': veiculo.condutor.idade,
             'Sexo': veiculo.condutor.sexo,
-            'Email': veiculo.condutor.email,
+            'Email': formatEmail(veiculo.condutor.email),
             'Vítima': veiculo.condutor.ehVitima,
         } : null,
         'Vestígios': veiculo.tipoVestigio?.[0] ? {
@@ -458,7 +479,6 @@ export default function FormDados() {
             'Veículo Identificado': veiculo.tipoVestigio[0].veiculoIdentificado,
         } : null,
         'Pneumático': veiculo.pneumatico?.[0] ? {
-            'Tipo': veiculo.pneumatico[0].tipo,
             'Subtipo': veiculo.pneumatico[0].subtipo,
             'Distancia': veiculo.pneumatico[0].distancia,
             'Superficie': veiculo.pneumatico[0].superficie,
@@ -466,7 +486,7 @@ export default function FormDados() {
         } : null,
         'Vítimas': veiculo.vitimas?.[0] ? {
             'Nome': veiculo.vitimas[0].nome,
-            'CPF': veiculo.vitimas[0].cpf,
+            'CPF': formatCPF(veiculo.vitimas[0].cpf),
             'Idade': veiculo.vitimas[0].idade,
             'Sexo': veiculo.vitimas[0].sexo,
             'Atendimento': veiculo.vitimas[0].atendimento,
@@ -476,10 +496,10 @@ export default function FormDados() {
 
     const dadosCondutores = (condutor) => ({
         'Nome': condutor.nome,
-        'CPF': condutor.cpf,
+        'CPF': formatCPF(condutor.cpf),
         'Idade': condutor.idade,
         'Sexo': condutor.sexo,
-        'Email': condutor.email,
+        'Email': formatEmail(condutor.email),
         'Vítima': condutor.ehVitima,
         'Descrição': condutor.descricao?.[0]?.descricao
     });
@@ -520,8 +540,10 @@ export default function FormDados() {
     });
 
     const renderTable = (title, data, uniqueKey) => (
-        <div key={uniqueKey} style={{ marginBottom: '30px', overflowX: 'visible', 
-            width: '100%'  }}>
+        <div key={uniqueKey} style={{
+            marginBottom: '30px', overflowX: 'visible',
+            width: '100%'
+        }}>
             <h3 style={{
                 textAlign: 'left',
                 marginBottom: '15px',
