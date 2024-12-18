@@ -365,15 +365,15 @@ export default function FormDados() {
     function formatEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) return 'Invalid Email';
-        
+
         const [localPart, domain] = email.split('@');
-        
+
         if (localPart.length <= 3) {
-          return `${localPart}******@${domain}`;
+            return `${localPart}******@${domain}`;
         }
-        
+
         return `${localPart.slice(0, 3)}******${localPart.slice(-2)}@${domain}`;
-      }
+    }
 
     const renderMultipleItems = (arrayKey, titlePrefix, dataExtractor) => {
         let items;
@@ -389,8 +389,11 @@ export default function FormDados() {
                 case 'croqui[0].acidente.condutores':
                     items = dados?.croqui?.[0]?.acidente?.condutores || [];
                     break;
+                case 'croqui?.[0]?.vitimas':
+                    items = dados.croqui[0].acidente.vitimas || [];
+                    break;
                 case 'croqui?.[0]?.testemunha':
-                    items = dados?.croqui?.[0]?.acidente?.testemunha || [];
+                    items = dados.croqui[0].acidente.testemunha || [];
                     break;
                 case 'EnderecoAcidente':
                     items = dados?.EnderecoAcidente || [];
@@ -411,7 +414,7 @@ export default function FormDados() {
             items = Array.isArray(items) ? items : (items ? [items] : []);
 
             if (items.length === 0) {
-                return <p>Nenhum {titlePrefix} cadastrado.</p>;
+                return <p>Nenhum(a) {titlePrefix} cadastrado(a).</p>;
             }
 
             return items.map((item, index) => {
@@ -520,6 +523,16 @@ export default function FormDados() {
     const dadosTestemunhas = (testemunha) => ({
         'Nome': testemunha.nome,
         'Descrição': testemunha.descricao?.[0]?.descricao,
+    });
+
+    const dadosVitimas = (vitimas) => ({
+        "CPF": formatCPF(vitimas.cpf),
+        "Nome": vitimas.nome,
+        "Idade": vitimas.idade,
+        "Sexo": vitimas.sexo,
+        "Atendimento": vitimas.atendimento,
+        "Condição": vitimas.condicao,
+        "Veículo Identificado": vitimas.veiculo_id ? 'Sim' : 'Não'
     });
 
     const dadosEndereco = (endereco) => ({
@@ -653,6 +666,15 @@ export default function FormDados() {
                         'croqui[0].acidente.condutores',
                         'Condutor',
                         dadosCondutores
+                    )}
+                </div>
+
+                <div style={{ marginTop: '30px' }}>
+                    <h4 style={{ textAlign: 'center', marginBottom: '15px' }}>Vítimas</h4>
+                    {renderMultipleItems(
+                        'croqui?.[0]?.vitimas',
+                        'Vítimas',
+                        dadosVitimas
                     )}
                 </div>
 
