@@ -1,0 +1,48 @@
+{
+  "name": "consulta-rest-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "user": "kamilaqz",
+  "dockerhubPush": true,
+  "port": "5173",
+  "expose": "3004",
+  "slack": "U07D468548Y",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@hcaptcha/react-hcaptcha": "^1.11.0",
+    "@mui/icons-material": "^6.1.10",
+    "@mui/material": "^6.1.10",
+    "axios": "^1.7.9",
+    "boostrap": "^2.0.0",
+    "bootstrap": "^5.3.3",
+    "js-cookie": "^2.2.1",
+    "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.8.5",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.7",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.0",
+    "sweetalert2": "^11.14.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.15.0",
+    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.12.0",
+    "vite": "^6.0.1"
+  }
+}
