@@ -709,7 +709,6 @@ export default function FormDados() {
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
-                                            width: '400px',
                                             height: '400px',
                                             border: '1px solid #eee'
                                         }}
