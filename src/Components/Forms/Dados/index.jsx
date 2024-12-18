@@ -105,25 +105,38 @@ export default function FormDados() {
 
     const handlePrint = () => {
         if (printRef.current) {
-            const printContent = printRef.current.innerHTML;
-            const printWindow = window.open('', '_blank');
-            printWindow.document.open();
-            printWindow.document.write(`
+            const images = printRef.current.querySelectorAll('img');
+            const imagePromises = Array.from(images).map(img => {
+                return new Promise((resolve) => {
+                    if (img.complete) {
+                        resolve();
+                    } else {
+                        img.onload = resolve;
+                        img.onerror = resolve;
+                    }
+                });
+            });
+
+            Promise.all(imagePromises).then(() => {
+                const printContent = printRef.current.innerHTML;
+                const printWindow = window.open('', '_blank');
+                printWindow.document.open();
+                printWindow.document.write(`
         <!DOCTYPE html>
         <html lang="pt-BR">
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Imprimir Dados</title>
+          <title>${dados.protocolo}</title>
           <style>
         @media print {
         @page {
           size: A4;
-          margin: 20mm 10mm 20mm 10mm;
+           margin: 20mm 10mm 20mm 10mm;
         }
         
         @page:first {
-          margin-top: 30mm;
+          margin-top: 15mm;
         }
         
         @page:left {
@@ -137,7 +150,7 @@ export default function FormDados() {
         
         @page:right {
           @top-center {
-            content: "Registro de Acidente de Trânsito (REST) - Protocolo: ${dados.protocolo}";
+            content: "Registro de Sinistro de Trânsito (REST) - Protocolo: ${dados.protocolo}";
             font-family: Arial, sans-serif;
             font-size: 10pt;
             color: #555;
@@ -148,6 +161,7 @@ export default function FormDados() {
           font-family: Arial, sans-serif;
           margin: 0;
           padding: 0;
+          width: 100%;
         }
         
         .print-content {
@@ -157,7 +171,7 @@ export default function FormDados() {
         .print-header {
           display: none;
         }
-      }
+    }
 
         body {
           font-family: Arial, sans-serif;
@@ -173,15 +187,22 @@ export default function FormDados() {
         }
         table {
           width: 100%;
-          border-collapse: collapse;
+          border-collapse: separate !important;
           margin: 20px 0;
           background-color: #fff;
+          max-width: 100%;
+          table-layout: fixed;
+          box-sizing: border-box;
         }
         th, td {
           padding: 12px;
-          border: 1px solid #ddd;
+          border: 0.5px solid #f4f4f4;
           text-align: left;
+          word-wrap: break-word; 
+          overflow: visible;
+         -webkit-print-color-adjust: exact;
         }
+       
         @media print {
           body {
             width: 100%;
@@ -210,6 +231,11 @@ export default function FormDados() {
             max-height: 100%;
             object-fit: contain;
           }
+          img {
+          max-width: 100% !important;
+          max-height: 400px !important;
+          object-fit: contain !important;
+          }
         }
           </style>
         </head>
@@ -220,12 +246,16 @@ export default function FormDados() {
             </div>
             <div class="page-content">
             ${printContent}
-        </div>
+            </div>
         </body>
         </html>
       `);
-            printWindow.document.close();
-            printWindow.print();
+                printWindow.document.close();
+                setTimeout(() => {
+                    printWindow.print();
+                    printWindow.close();
+                }, 500);
+            });
         }
     };
 
@@ -247,7 +277,6 @@ export default function FormDados() {
                 'data_download': acessoEm,
                 'hora_download': formattedHoraDownload,
             });
-            console.log('response', response)
         } catch (error) {
             console.error(error);
         }
@@ -410,8 +439,8 @@ export default function FormDados() {
         'Modelo': veiculo.modelo,
         'Transporte': veiculo.transporte,
         'Status': veiculo.status,
-        'Agente de Recolhimento': veiculo.Agente_Recolhimento ? {
-            'Nome do Agente': veiculo.Agente_Recolhimento.nome,
+        'Agente Recolhimento': veiculo.Agente_Recolhimento ? {
+            'Nome': veiculo.Agente_Recolhimento.nome,
             'Matrícula': veiculo.Agente_Recolhimento.matricula,
             'Órgão Presente': veiculo.Agente_Recolhimento.orgao_agente_presente?.nome
         } : null,
@@ -491,7 +520,8 @@ export default function FormDados() {
     });
 
     const renderTable = (title, data, uniqueKey) => (
-        <div key={uniqueKey} style={{ marginBottom: '30px' }}>
+        <div key={uniqueKey} style={{ marginBottom: '30px', overflowX: 'visible', 
+            width: '100%'  }}>
             <h3 style={{
                 textAlign: 'left',
                 marginBottom: '15px',
@@ -623,7 +653,7 @@ export default function FormDados() {
                 </div>
 
                 <div style={{ marginTop: '30px' }}>
-                    <h4 style={{ textAlign: 'center', marginBottom: '15px' }}>Órgãos</h4>
+                    <h4 style={{ textAlign: 'center', marginBottom: '15px' }}>Órgãos Envolvidos</h4>
                     {renderMultipleItems(
                         'dados',
                         '',
@@ -632,7 +662,7 @@ export default function FormDados() {
                 </div>
 
                 <div style={{ marginTop: '30px' }}>
-                    <h4 style={{ textAlign: 'center', marginBottom: '15px' }}>Agentes</h4>
+                    <h4 style={{ textAlign: 'center', marginBottom: '15px' }}>Agentes de Trânsito</h4>
                     {renderMultipleItems(
                         'dados',
                         '',

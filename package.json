@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "user": "kamilaqz",
   "dockerhubPush": true,
-  "port": "5173",
-  "expose": "3004",
+  "port": "5174",
+  "expose": "3009",
   "slack": "U07D468548Y",
   "type": "module",
   "scripts": {
