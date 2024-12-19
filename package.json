@@ -1,7 +1,7 @@
 {
   "name": "consulta-rest-frontend",
   "private": true,
-  "version": "1.0.3",
+  "version": "1.0.4",
   "user": "kamilaqz",
   "dockerhubPush": true,
   "port": "5174",
