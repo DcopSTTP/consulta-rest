@@ -519,48 +519,6 @@ export default function FormDados() {
         return baseData;
     };
 
-    // const dadosVeiculos = (veiculo) => ({
-    //     'Placa': veiculo.placa,
-    //     'Tipo': veiculo.tipo,
-    //     'Marca': veiculo.marca,
-    //     'Cor': veiculo.cor,
-    //     'Modelo': veiculo.modelo,
-    //     'Transporte': veiculo.transporte,
-    //     'Status': veiculo.status,
-    //     'Agente Recolhimento': veiculo.Agente_Recolhimento ? {
-    //         'Nome': veiculo.Agente_Recolhimento.nome,
-    //         'Matrícula': veiculo.Agente_Recolhimento.matricula,
-    //         'Órgão Presente': veiculo.Agente_Recolhimento.orgao_agente_presente?.nome
-    //     } : null,
-    //     'Condutor': veiculo.condutor ? {
-    //         'Nome': veiculo.condutor.nome,
-    //         'CPF': formatCPF(veiculo.condutor.cpf),
-    //         'Idade': veiculo.condutor.idade,
-    //         'Sexo': veiculo.condutor.sexo,
-    //         'Email': formatEmail(veiculo.condutor.email),
-    //         'Vítima': veiculo.condutor.ehVitima,
-    //     } : null,
-    //     'Vestígios': veiculo.tipoVestigio?.[0] ? {
-    //         'Distancia': veiculo.tipoVestigio[0].distancia,
-    //         'Tipo': veiculo.tipoVestigio[0].tipo,
-    //         'Veículo Identificado': veiculo.tipoVestigio[0].veiculoIdentificado,
-    //     } : null,
-    //     'Pneumático': veiculo.pneumatico?.[0] ? {
-    //         'Subtipo': veiculo.pneumatico[0].subtipo,
-    //         'Distancia': veiculo.pneumatico[0].distancia,
-    //         'Superficie': veiculo.pneumatico[0].superficie,
-    //         'Veículo Identificado': veiculo.pneumatico[0].veiculoIdentificado,
-    //     } : null,
-    //     'Vítimas': veiculo.vitimas?.[0] ? {
-    //         'Nome': veiculo.vitimas[0].nome,
-    //         'CPF': formatCPF(veiculo.vitimas[0].cpf),
-    //         'Idade': veiculo.vitimas[0].idade,
-    //         'Sexo': veiculo.vitimas[0].sexo,
-    //         'Atendimento': veiculo.vitimas[0].atendimento,
-    //         'Condição': veiculo.vitimas[0].condicao,
-    //     } : null,
-    // });
-
     const dadosCondutores = (condutor) => ({
         'Nome': condutor.nome,
         'CPF': formatCPF(condutor.cpf),
@@ -573,13 +531,13 @@ export default function FormDados() {
 
     const dadosTipoVestigio = (vestigio) => ({
         'Tipo': vestigio.tipo,
-        'Distância': vestigio.distancia,
+        'Distância (m)': vestigio.distancia,
         'Veículo Identificado': vestigio.veiculoIdentificado ? 'Sim' : 'Não',
     });
 
     const dadosPneumatico = (pneumatico) => ({
         'Subtipo': pneumatico.subtipo,
-        'Distância': pneumatico.distancia,
+        'Distância (m)': pneumatico.distancia,
         'Superfície': pneumatico.superficie,
         'Veículo Identificado': pneumatico.veiculoIdentificado ? 'Sim' : 'Não'
     });

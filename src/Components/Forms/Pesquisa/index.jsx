@@ -125,7 +125,7 @@ export default function FormPesquisa() {
         margin: 0,
         fontSize: '11px'
       }}>
-        Versão 1.0.3
+        Versão 1.0.4
       </p>
     </Box>
   );
